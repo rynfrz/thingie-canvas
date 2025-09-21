@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>thingie: canvas</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="supabase.config.js"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar" aria-label="Top bar">
+      <div class="left"></div>
+      <div class="center"></div>
+      <div class="right">
+        <button id="chatToggle" class="btn">Messages</button>
+      </div>
+    </header>
+
+    <aside id="chatPanel" class="chat" hidden>
+      <div class="chat-head">
+        <strong>Room Messages</strong>
+        <button id="chatClose" class="btn">×</button>
+      </div>
+      <div id="chatLog" class="chat-log" aria-live="polite"></div>
+      <form id="chatForm" class="chat-form">
+        <input id="chatInput" type="text" placeholder="Type a message…" autocomplete="off">
+        <button class="btn primary">Send</button>
+      </form>
+    </aside>
+
+    <main class="stage" id="stage" aria-label="Canvas workspace">
+      <div id="viewport" class="viewport" style="transform: translate(0px,0px) scale(1)">
+        <canvas id="bitmap" width="1920" height="1080"></canvas>
+        <svg id="svg" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+        <div id="overlay" class="overlay"></div>
+        <div id="marquee" class="marquee" hidden></div>
+        <div id="cursors" class="cursors" aria-hidden="true"></div>
+        <div class="badge">
+          <div class="logo"><span class="dot red"></span><span class="dot yellow"></span><span class="dot blue"></span><span class="dot green"></span><span class="word">thingie</span></div>
+          <div class="code" id="roomCode">—</div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="toolbar" aria-label="Tools">
+      <button class="tool" data-tool="select" aria-pressed="true" title="V">Select</button>
+      <button class="tool" data-tool="pen" title="P">Draw</button>
+      <button class="tool" data-tool="eraser" title="E">Eraser</button>
+
+      <div class="sep"></div>
+
+      <label class="color">
+        <input type="color" id="colorPicker" value="#172033" aria-label="Color picker">
+      </label>
+      <input type="range" id="sizePicker" min="1" max="40" value="4" aria-label="Brush size">
+
+      <div class="sep"></div>
+
+      <button class="tool" data-tool="rect">Rectangle</button>
+      <button class="tool" data-tool="circle">Circle</button>
+      <button class="tool" data-tool="star">Star</button>
+      <button class="tool" data-tool="blob">Blob</button>
+
+      <div class="sep"></div>
+
+      <button class="tool" data-tool="text" title="T">Text</button>
+      <button class="tool" data-tool="table">Table</button>
+
+      <div class="sep"></div>
+
+      <label class="import btn">
+        <input type="file" id="imageImport" accept="image/*" hidden>
+        Import Image
+      </label>
+      <label class="import btn">
+        <input type="file" id="csvImport" accept=".csv,text/csv" hidden>
+        Import CSV
+      </label>
+
+      <div class="grow"></div>
+
+      <button id="exportBtn" class="btn primary">Export PNG</button>
+    </footer>
+  </div>
+
+  <div id="textBar" class="textbar" hidden>
+    <button data-cmd="h1">H1</button>
+    <button data-cmd="h2">H2</button>
+    <button data-cmd="bold"><strong>B</strong></button>
+    <button data-cmd="italic"><em>I</em></button>
+    <input type="color" id="textColor" title="Font color">
+  </div>
+
+  <dialog id="welcome">
+    <form method="dialog" id="welcomeForm">
+      <h1>Welcome to thingie</h1>
+      <p class="muted">Join or create a canvas. Share the code to collaborate in real-time.</p>
+      <label> Your name
+        <input id="displayName" type="text" placeholder="Taylor" required>
+      </label>
+      <div class="row">
+        <button id="createBtn" class="btn primary" value="create">Create Canvas</button>
+        <input id="roomInput" type="text" placeholder="Enter code to join">
+        <button id="joinBtn" class="btn" value="join">Join</button>
+      </div>
+      <small class="muted">Tip: open another tab and paste the same code to try multiplayer.</small>
+    </form>
+  </dialog>
+</body>
+</html>

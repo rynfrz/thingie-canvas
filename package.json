@@ -1,0 +1,13 @@
+{
+  "name": "thingie-canvas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build-supabase-config.mjs",
+    "start": "npx http-server -p 8080 -c-1 ."
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
